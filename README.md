@@ -1,60 +1,123 @@
 # AWS ALB Auto Scaling Project
 
-## Project Overview
+## Overview
 
-This project demonstrates a highly available and scalable web application architecture on AWS using:
+This project demonstrates the deployment of a highly available and scalable web infrastructure on AWS using Application Load Balancer (ALB), Auto Scaling Group (ASG), EC2 Instances, Launch Templates, and a custom VPC.
 
-* Amazon EC2
-* Auto Scaling Group (ASG)
-* Application Load Balancer (ALB)
-* Target Group
-* Launch Template
-* VPC
-* Public Subnets
+The architecture is designed to distribute traffic across multiple Availability Zones and automatically replace unhealthy instances to ensure high availability.
 
 ## Architecture
 
-Internet → Application Load Balancer → Target Group → EC2 Instances → Auto Scaling Group
+```text
+Internet
+    │
+    ▼
+Application Load Balancer (ALB)
+    │
+    ▼
+Target Group
+    │
+ ┌──┴──┐
+ ▼     ▼
+EC2   EC2
+AZ-A  AZ-B
+    │
+    ▼
+Auto Scaling Group
+(Min: 2 | Desired: 2 | Max: 4)
+```
 
 ## AWS Services Used
 
 * Amazon EC2
 * Amazon VPC
-* Application Load Balancer
+* Application Load Balancer (ALB)
 * Target Group
-* Auto Scaling Group
+* Auto Scaling Group (ASG)
 * Launch Template
 * Security Groups
+* Elastic Load Balancing (ELB)
 
-## Configuration
+## Infrastructure Configuration
 
 ### VPC
 
-* CIDR: 10.0.0.0/16
+* Name: production-vpc
+* CIDR Block: 10.0.0.0/16
 
 ### Public Subnets
 
-* Public-Subnet-A
-* Public-Subnet-B
+* Public-Subnet-A (ap-south-1a)
+* Public-Subnet-B (ap-south-1b)
+
+### Launch Template
+
+* Name: production-template
+* AMI: Amazon Linux 2023
+* Instance Type: t3.micro
 
 ### Auto Scaling Group
 
+* Name: production-asg
 * Desired Capacity: 2
 * Minimum Capacity: 2
 * Maximum Capacity: 4
 
 ### Load Balancer
 
-* Application Load Balancer (ALB)
-* HTTP Port 80
+* Name: Production-ALB
+* Type: Application Load Balancer
+* Protocol: HTTP
+* Port: 80
 
-## Validation
+### Target Group
 
-* Verified ALB accessibility
-* Verified healthy target group instances
-* Verified Auto Scaling deployment
-* Verified multi-Availability Zone architecture
+* Name: productiontg
+* Protocol: HTTP
+* Port: 80
 
-## Outcome
+## Health Checks
 
-Successfully deployed a highly available and scalable AWS infrastructure using ALB and Auto Scaling Group.
+The Target Group continuously monitors instance health.
+
+* EC2 Health Checks Enabled
+* ELB Health Checks Enabled
+* Automatic unhealthy instance replacement through Auto Scaling
+
+## Validation Performed
+
+* Successfully created custom VPC and subnets
+* Configured Application Load Balancer
+* Created Target Group and registered instances
+* Created Launch Template
+* Configured Auto Scaling Group across multiple Availability Zones
+* Verified healthy targets in Target Group
+* Accessed application successfully using ALB DNS Name
+* Confirmed high availability architecture
+
+## Project Outcome
+
+Successfully deployed a production-style AWS infrastructure that provides:
+
+* High Availability
+* Load Balancing
+* Auto Scaling
+* Fault Tolerance
+* Multi-AZ Deployment
+
+## Skills Demonstrated
+
+* AWS EC2
+* AWS VPC
+* AWS Auto Scaling
+* AWS Load Balancing
+* AWS Networking
+* Security Groups
+* High Availability Architecture
+* Cloud Infrastructure Management
+
+## Author
+
+Dharanidharan V
+
+AWS Cloud Engineer
